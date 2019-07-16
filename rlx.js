@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Created by Erlex
  * 05/15/2019
  * This script requires fontawesome and Bootstrap package
@@ -596,12 +596,45 @@ function replaceAt(str, index, ch) {
 
 //C#
 /*
- private String sqlDatoToJson(SqlDataReader dataReader)
+* web config
+<add name="dbAttendance" providerName="System.Data.SqlClient" connectionString="data source=edscloudserversng.cgemck5cc0k3.ap-southeast-1.rds.amazonaws.com;initial catalog=AMPS_FACE_DEMO;persist security info=True;user id=edsinnoventions;password=11eds2000;MultipleActiveResultSets=True;" />
+
+* controller
+    private JsonResult QueryToJson(string QUERY,string ErrorReturn = null)
+    {
+        var model = new GenericReturn();
+        try
         {
-            var dataTable = new System.Data.DataTable();
-            dataTable.Load(dataReader);
-            string JSONString = string.Empty;
-            JSONString = JsonConvert.SerializeObject(dataTable);
-            return JSONString;
+            string connectionString = ConfigurationManager.ConnectionStrings["dbAttendance"].ConnectionString;
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand sqlCMD = new SqlCommand(QUERY, conn);
+                conn.Open();
+                JavaScriptSerializer j = new JavaScriptSerializer();
+                model.data = j.Deserialize(sqlDatoToJson(sqlCMD.ExecuteReader()), typeof(object));
+            }
         }
+        catch (Exception e)
+        {
+            if (ErrorReturn == null) model.data = e.Message;
+            else model.data = ErrorReturn;
+        }
+
+        return Json(model, JsonRequestBehavior.AllowGet);
+    }
+
+    private string sqlDatoToJson(SqlDataReader dataReader)
+    {
+        var dataTable = new System.Data.DataTable();
+        dataTable.Load(dataReader);
+        string JSONString = string.Empty;
+        JSONString = JsonConvert.SerializeObject(dataTable);
+
+        return JSONString;
+    }
+* model
+ public class GenericReturn
+ {
+    public object data { get; set; }
+ }
  */
