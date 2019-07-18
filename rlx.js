@@ -572,7 +572,7 @@ function rlxGetFileInfo(file, CallBack, TYPE) {
 }
 
 //Source: https://codepen.io/danny_pule/pen/WRgqNx
-function rlxExportCSVFile(headers, items, fileTitle) {
+function rlxExportCSVFile(headers, items, fileTitle, CallBack) {
     if (headers) {
         items.unshift(headers);
     }
@@ -588,6 +588,7 @@ function rlxExportCSVFile(headers, items, fileTitle) {
 
     if (navigator.msSaveBlob) { // IE 10+
         navigator.msSaveBlob(blob, exportedFilenmae);
+        if (CallBack) CallBack();
     } else {
         var link = document.createElement("a");
         if (link.download !== undefined) { // feature detection
@@ -599,6 +600,7 @@ function rlxExportCSVFile(headers, items, fileTitle) {
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+            if (CallBack) CallBack();
         }
     }
 }
