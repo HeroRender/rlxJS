@@ -261,3 +261,13 @@ textarea {
 }
 
 
+.tblFrozen th:first-child,.tblFrozen td:first-child
+{
+  position:sticky;
+  left:0px;
+ 
+}
+
+.tblFrozen {
+    white-space: nowrap;
+}
